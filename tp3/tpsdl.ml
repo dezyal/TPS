@@ -36,7 +36,6 @@ let color2grey (r,g,b) =
 
 
 (* image2grey *)
-
 let image2grey src dst =
  let (w,h) = get_dims src in
   for x = 0 to w-1 do
