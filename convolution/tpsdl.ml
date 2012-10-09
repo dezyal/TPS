@@ -44,7 +44,7 @@ let out_of_bounds mtx width height x y =
 
 (* Convolution filter *)
 let conv_filter_3x3 mtx w h =
-  let filter = [|0;-1;0;-1;5;-1;0;-1;0|] and factor = 1.0 in
+  let filter = [|0;1;0;1;-4;1;0;1;0|] and factor = 1.0 in
   let new_mtx = Array.make_matrix w h 100 in
   for x = 0 to w-1 do
    for y = 0 to h-1 do
