@@ -43,7 +43,7 @@ let out_of_bounds mtx width height x y =
   x < 0 || x > width-1 || y < 0 || y > height-1
 
 (* Convolution filter *)
-let conv_filter_3x3 mtx w h =
+let conv_filter_demo mtx w h =
   let filter = [|0;1;0;1;-4;1;0;1;0|] and factor = 1.0 in
   let new_mtx = Array.make_matrix w h 100 in
   for x = 0 to w-1 do
@@ -71,6 +71,28 @@ let conv_filter_3x3 mtx w h =
    done
   done;
   new_mtx 
+
+
+let conv_filter_3x3 mtx w h =
+  let filter = [|0;1;0;1;-4;1;0;1;0|] and factor = 1.0 in
+  let new_mtx = Array.make_matrix w h 100 in
+  for x = 1 to w-2 do
+   for y = 1 to h-2 do
+     let a = mtx.(x-1).(y-1) * filter.(0)  in
+     let b = mtx.(x).(y-1) * filter.(1) in
+     let c = mtx.(x+1).(y-1) * filter.(2) in
+     let d = mtx.(x-1).(y) * filter.(3) in
+     let e =  mtx.(x).(y) * filter.(4) in
+     let f =  mtx.(x+1).(y) * filter.(5) in
+     let g =  mtx.(x-1).(y+1) * filter.(6) in
+     let h =  mtx.(x).(y+1) * filter.(7) in
+     let i = mtx.(x+1).(y+1) * filter.(8) in
+      let px = int_of_float((float)(a+b+c+d+e+f+g+h+i)*.factor) in
+      new_mtx.(x).(y) <- if px < 0 then 0 else px
+   done
+  done;
+  new_mtx
+
 
 (*
 Grise une surface et renvoi la matrice de couleurs correspondante.
