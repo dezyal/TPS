@@ -1,30 +1,23 @@
-(* Dimensions d'une image *)
-let get_dims img =
-  ((Sdlvideo.surface_info img).Sdlvideo.w, (Sdlvideo.surface_info img).Sdlvideo.h)
-
-(* attendre une touche ... *)
-let rec wait_key () =
-  let e = Sdlevent.wait_event () in
-    match e with
-    Sdlevent.KEYDOWN _ -> ()
-      | _ -> wait_key ()
-
-(* init de SDL *)
 let sdl_init () =
   begin
     Sdl.init [`EVERYTHING];
     Sdlevent.enable_events Sdlevent.all_events_mask;
   end
 
-(*
-show img dst
-affiche la surface img sur la surface de destination dst (normalement l'écran)
-*)
+let get_dims img =
+  ((Sdlvideo.surface_info img).Sdlvideo.w, (Sdlvideo.surface_info img).Sdlvideo.h)
+      
 let show img dst =
   let d = Sdlvideo.display_format img in
     Sdlvideo.blit_surface d dst ();
     Sdlvideo.flip dst
 
+let rec wait_key () =
+  let e = Sdlevent.wait_event () in
+    match e with
+    Sdlevent.KEYDOWN _ -> ()
+      | _ -> wait_key ()
+      
 (* level *)
 let level (r,g,b) =
   (0.3 *. (float)r +. 0.59 *. (float)g +. 0.11 *. (float)b) /. 255.
@@ -33,7 +26,6 @@ let level (r,g,b) =
 let color2grey (r,g,b) =
   let px = int_of_float(level(r,g,b)*.255.) in
     (px,px,px)
-
 
 (* image2grey *)
 let image2grey src dst =
@@ -46,7 +38,6 @@ let image2grey src dst =
   done;
   dst
 
-(* main *)
 let main () =
   begin
     if Array.length (Sys.argv) < 2 then
